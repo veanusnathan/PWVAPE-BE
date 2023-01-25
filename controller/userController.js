@@ -46,7 +46,7 @@ module.exports = {
 				isError: false,
 				message: "Login Success",
 				data: {
-					uid: createToken(data.uid),
+					uid: createToken({ id: data.uid }),
 					role: data.role,
 				},
 			});
