@@ -9,5 +9,5 @@ app.use(cors());
 app.use("/user", userRouter);
 
 app.listen(5010, () => {
-	return console.log("Connected to port 5000");
+	return console.log("Connected to port 5010");
 });

@@ -1,5 +1,6 @@
 const { Op } = require("sequelize");
 const { hash, hashMatch } = require("../lib/hash");
+const { createToken } = require("../lib/jwt");
 const db = require("../sequelize/models");
 
 module.exports = {
@@ -29,12 +30,10 @@ module.exports = {
 		}
 	},
 	login: async (req, res) => {
-		const { username, password } = req.query;
+		const { username, password } = req.body;
 		try {
 			let data = await db.user.findOne({
-				where: {
-					[Op.and]: [{ username }, { password }],
-				},
+				where: { username },
 			});
 			if (!hashMatch(password, data.password)) {
 				throw res.status(400).send({
@@ -47,7 +46,7 @@ module.exports = {
 				isError: false,
 				message: "Login Success",
 				data: {
-					uid: data.uid,
+					uid: createToken(data.uid),
 					role: data.role,
 				},
 			});
